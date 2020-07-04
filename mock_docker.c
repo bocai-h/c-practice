@@ -24,7 +24,7 @@ int container_main(void* args){
 
 int main(){
     printf("Parent - start a container!\n");
-    int container_id = clone(container_main, container_stack + STACK_SIZE, CLONE_NEWNS | SIGCHID, NULL);
+    int container_id = clone(container_main, container_stack + STACK_SIZE, CLONE_NEWNS | SIGCHLD, NULL);
     wait_pid(container_id, NULL, 0);
     printf("Parent - container stop!\n");
     return 0;
