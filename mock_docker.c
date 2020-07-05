@@ -4,7 +4,7 @@
 #include <sys/types.h>
 #include <sys/wait.h>
 #include <stdio.h>
-#include <sched.h>
+#include <linux/sched.h>
 #include <signal.h>
 #include <unistd.h>
 #define STACK_SIZE (1024 * 1024)
@@ -15,9 +15,11 @@ char* const container_args[] = {
   NULL
 };
 
-int container_main(void* arg)
+static int container_main(void* arg)
 {  
   printf("Container - inside the container!\n");
+  mount("", "/", NULL, MS_PRIVATE, "");
+  mount("none", "/tmp", "tmpfs", 0, "");
   execv(container_args[0], container_args);
   printf("Something's wrong!\n");
   return 1;
