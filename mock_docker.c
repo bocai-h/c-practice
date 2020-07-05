@@ -25,12 +25,8 @@ int container_main(void* arg)
 
 int main()
 {
-  char *stack;
-  char *stackTop;
-  stack = malloc(STACK_SIZE);
-  stackTop = stack + STACK_SIZE;
   printf("Parent - start a container!\n");
-  int container_pid = clone(&container_main, stackTop, CLONE_NEWNS | SIGCHLD , NULL);
+  int container_pid = clone(&container_main, container_stack + STACK_SIZE, CLONE_NEWNS | SIGCHLD , NULL);
   printf("Container pid is %d\n", container_pid);
   waitpid(container_pid, NULL, 0);
   printf("Parent - container stopped!\n");
